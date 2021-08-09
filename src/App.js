@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import Counter from './Comp/Counter';
+import Info from './Comp/Info';
+import InfoUseEffect from './Comp/InfoUseEffect';
+import CounterUseReducer from './Comp/CounterUseReducer';
 
-function App() {
+const App = () => {
+
+  const [Visible, setVisible] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div>
+    <br/>
+    <hr/>
+      <h1>useState 기본</h1>
+      <Counter/>
+    <br/>
+    <hr/>
+      <h1>useState 여러번</h1>
+      <Info/>
+    <br/>
+    <hr/>
+      <h1>useEffect</h1>
+      <InfoUseEffect/>
+    <br/>
+    <hr/>
+      <h1>useEffect-App함수에서 useState사용</h1>
+      <div>
+        <button
+          onClick={() => {
+            setVisible(!Visible);
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          {Visible ? '숨기기' : '보이기'}
+        </button>
+      </div>
+      {false && <InfoUseEffect/>}
+      {true && <InfoUseEffect/>}
+      {Visible && <InfoUseEffect/>}
+    <br/>
+    <hr/>
+      <h1>useReducer</h1>
+      <CounterUseReducer/>
     </div>
-  );
-}
+    
+  ) 
+};
 
 export default App;

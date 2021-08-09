@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# Hook
+## 새로운 프로젝트 생성
+    - yarn create react-app hooks-tutorial
+## useState
+    - 상태를 관리할 때 사용 
+```javascript
+const [value, setValue] = useState(0);
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<button onClick={() => setValue(value + 1)}>
 
-## Available Scripts
+```
+    - useState함수가 실행되면 배열이 리턴된다.
+    - 0번째 원소 : 값
+      1번째 원소 : 상태를 설정하는 함수
 
-In the project directory, you can run:
+## useEffect
+    - 컴포넌트가 렌더링될 때 마다 특정 작업을 수행하도록 설정
+    - componentDidMount, componentDidUpdate 를 합친 형태로 봐도 됨 
+    - 예를들면 어떤 작업들이 있을까
+### 특정 값이 업데이트 될 때만 실행하고 싶을 때
+    - 함수의 두번째 파라미터에 []를 넣으면 업데이트 될 땐 실행하지 않는다.
+```javascript
+    useEffect(() => {
 
-### `yarn start`
+        console.log('렌더링이 완료되었습니다.');
+        console.log({
+            Name, NickName
+        });
+    }, [NickName]);
+```
+### 뒷정리하기 
+    - 컴포넌트가 언마운트되기 전이나 업데이트되기 직전에 어떠한 작업을 수행하고 싶다면 뒷정리함수를 반환해야한다. 
+```javascript
+ return () => {
+            console.log('CleanUp');
+            console.log(NickName);
+        }
+```
+    -이건 어떤 경우에 쓰이는 것일까. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## useReducer
+    - 현재 상태, 업데이트를 위한 액션 값을 전달받아 새로운 상태를 반환하는 함수 
+    - 반드시 불변성을 지켜줘야 함 
+```javascript
+function reducer(state, action){
+    //action type에 따라 작업 수행
+    switch(action.type){
+        case 'INCREMENT':
+            return {value: state.value + 1};
+        case 'DECREMENT':
+            return {value: state.value - 1};
+        default:
+            return state;
+    }
+}
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+const CounterUseReducer = () => {
+    const [state, dispatch] = useReducer(reducer, {value: 0});
+    
 
-### `yarn test`
+    return(
+        <div>
+            <p>
+                현재 카운터 값은 <b>{state.value}</b>입니다.
+            </p>
+            <button onClick={() => dispatch({type: 'INCREMENT'})}>증가</button>
+            <button onClick={() => dispatch({type: 'DECREMENT'})}>감소</button>
+        </div>
+    )
+}
+```
+    - useReducer 함수 : 첫번째 파라미터는 reducer 함수 
+                        두번째 파라미터는 해당 reducer의 기본값 
+    - dispatch는 액션을 발생시키는 함수 
+    - 가장 큰 장점은 컴포넌트 업데이트 로직을 밖으로 뺄 수 있다는 것이다. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
