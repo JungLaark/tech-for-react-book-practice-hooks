@@ -56,7 +56,6 @@ function reducer(state, action){
 
 const CounterUseReducer = () => {
     const [state, dispatch] = useReducer(reducer, {value: 0});
-    
 
     return(
         <div>
@@ -73,4 +72,46 @@ const CounterUseReducer = () => {
                         두번째 파라미터는 해당 reducer의 기본값 
     - dispatch는 액션을 발생시키는 함수 
     - 가장 큰 장점은 컴포넌트 업데이트 로직을 밖으로 뺄 수 있다는 것이다. 
+### 인풋 상태 관리하기 
+
+
+## useMemo 
+    - 특정 값이 변경되었을 때만 연산을 실행하고, 바뀌지 않았다면 이전에 연산했던 결과를 다시 사용 
+    - Average comopnent
+
+```javascript
+    const avg = useMemo(
+        () => getAverage(list), [list]
+        );
+```
+
+## useCallback
+    - 이전에 만들었던 함수를 재사용할 수 있다. 
+    - 첫번째 파라미터 : 생성하고 싶은 함수를 넣는다.
+      두번째 파라미터 : dependency배열, 어떤 값이 변하면 이 함수를 생성하게끔 하기 위한 변수들을 넣는다.
+```javascript
+ const onChange = useCallback(e => {
+        setNumber(e.target.value);
+    }, []);//컴포넌트가 처음 렌더링될 때만 함수 생성 
+
+    const onInsert = useCallback(() => {
+        const nextList = list.concat(parseInt(number));
+
+        setList(nextList);
+        setNumber('');
+    }, [number, list]);//number, list가 바뀌었을 때만 함수 생성 
+    //함수가 생성된다고 하는데 메모리에 한 번만 올라간다고 이해하면 될까? 
+```     
+## useRef   
+    - ref를 사용키 위함.
+    - 렌더링과 관련되지 않은 값을 관리할 때도 사용 할 수 있음.
+```javascript
+//...
+const inputEl = useRef(null); //포커스 변경을 위함 
+//...
+inputEl.current.focus();//current 가 실제 element를 가리키게 됨 
+//...
+ref={inputEl}
+
+```    
 

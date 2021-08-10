@@ -3,6 +3,9 @@ import Counter from './Comp/Counter';
 import Info from './Comp/Info';
 import InfoUseEffect from './Comp/InfoUseEffect';
 import CounterUseReducer from './Comp/CounterUseReducer';
+import Info2 from './Comp/Info2';
+import Average from './Comp/Average';
+import Average2 from './Comp/Average2';
 
 const App = () => {
 
@@ -41,6 +44,18 @@ const App = () => {
     <hr/>
       <h1>useReducer</h1>
       <CounterUseReducer/>
+    <br/>
+    <hr/>
+      <h1>useReducer : 인풋 상태 관리하기</h1>
+      <Info2/>
+    <br/>
+    <hr/>
+      <h1>useMemo : Average</h1>
+      <Average />
+    <br/>
+    <hr/>
+      <h1>useCallback : Average2 : 함수 재사용</h1>
+      <Average2 />
     </div>
     
   ) 
